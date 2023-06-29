@@ -18,7 +18,7 @@ public class CategoryController {
     }
     // Add new category end point
     //http://localhost:8080/api/categories/
-    @PostMapping()
+    @PostMapping
     public ResponseEntity<CategoryDto> addCategory(@RequestBody CategoryDto categoryDto){
         CategoryDto savedCategory =  categoryService.addCategory(categoryDto);
         return new ResponseEntity<>(savedCategory, HttpStatus.CREATED);
@@ -26,7 +26,7 @@ public class CategoryController {
 
     //Get all categories end point
     //http://localhost:8080/api/categories
-    @GetMapping()
+    @GetMapping
     public ResponseEntity<List<CategoryDto>> getCategories(){
         List<CategoryDto> categoriesList = categoryService.getAllCategories();
         return new ResponseEntity<>(categoriesList, HttpStatus.OK);

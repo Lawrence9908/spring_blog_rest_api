@@ -5,6 +5,7 @@ import com.lawrence.blog.exceptions.ResourceNotFoundException;
 import com.lawrence.blog.payload.CategoryDto;
 import com.lawrence.blog.repository.CategoryRepository;
 import com.lawrence.blog.services.CategoryService;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,10 +16,12 @@ public class CategoryServiceImpl implements CategoryService {
     //Injecting the categoryRepository into CategoryService
     //Using constructor annotation
     // We are not using @Autowired since we have only one constructor
-    private CategoryRepository categoryRepo;
+    private final CategoryRepository categoryRepo;
+    private final ModelMapper mapper;
 
-    public CategoryServiceImpl(CategoryRepository categoryRepo) {
+    public CategoryServiceImpl(CategoryRepository categoryRepo, ModelMapper mapper) {
         this.categoryRepo = categoryRepo;
+        this.mapper = mapper;
     }
     //Method to add a new category into the database
     @Override
@@ -79,18 +82,20 @@ public class CategoryServiceImpl implements CategoryService {
     }
     //Helper method to convert CategoryEntity to CategoryDto
     private CategoryDto mapEntityTOdTO(Category category){
-        CategoryDto categoryDto = new CategoryDto();
-        categoryDto.setDescription(category.getDescription());
-        categoryDto.setName(category.getName());
-        categoryDto.setId(category.getId());
+        CategoryDto categoryDto  = mapper.map(category, CategoryDto.class);
+//        CategoryDto categoryDto = new CategoryDto();
+//        categoryDto.setDescription(category.getDescription());
+//        categoryDto.setName(category.getName());
+//        categoryDto.setId(category.getId());
         return  categoryDto;
     }
 
    //Helper method to convert CategoryDto to CategoryEntity
     private Category mapDtoToEntity(CategoryDto categoryDto){
-        Category category = new Category();
-        category.setDescription(categoryDto.getDescription());
-        category.setName(categoryDto.getName());
+        Category category  = mapper.map(categoryDto, Category.class);
+//        Category category = new Category();
+//        category.setDescription(categoryDto.getDescription());
+//        category.setName(categoryDto.getName());
         return category;
     }
 }

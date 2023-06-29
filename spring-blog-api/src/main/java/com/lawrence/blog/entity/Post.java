@@ -26,7 +26,8 @@ public class Post {
     @Column(nullable = false, unique = true)
     private String title;
 
-    @Column(name = "content", nullable = false)
+    @Column(name = "content", nullable = false, columnDefinition = "text")
+    @Lob
     private String content;
 
     @Column(name = "description", nullable = false)

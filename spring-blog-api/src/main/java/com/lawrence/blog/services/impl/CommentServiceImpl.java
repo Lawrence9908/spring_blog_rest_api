@@ -9,6 +9,7 @@ import com.lawrence.blog.payload.PostDto;
 import com.lawrence.blog.repository.CommentRepository;
 import com.lawrence.blog.repository.PostRepository;
 import com.lawrence.blog.services.CommentService;
+import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
@@ -20,10 +21,12 @@ public class CommentServiceImpl implements CommentService {
 
     private final CommentRepository commentRepository;
     private final PostRepository postRepository;
+    private final ModelMapper mapper;
 
-    public CommentServiceImpl(CommentRepository commentRepository, PostRepository postRepository) {
+    public CommentServiceImpl(CommentRepository commentRepository, PostRepository postRepository, ModelMapper mapper) {
         this.commentRepository = commentRepository;
         this.postRepository = postRepository;
+        this.mapper  = mapper;
     }
 
     @Override
@@ -89,20 +92,22 @@ public class CommentServiceImpl implements CommentService {
 
     //Convert comment Entity to Dto
     private CommentDto mapToDto(Comment comment){
-        CommentDto commentDto  = new CommentDto();
-        commentDto.setBody(comment.getBody());
-        commentDto.setEmail(comment.getEmail());
-        commentDto.setName(comment.getName());
-        commentDto.setId(comment.getId());
+        CommentDto commentDto  = mapper.map(comment, CommentDto.class);
+//        CommentDto commentDto  = new CommentDto();
+//        commentDto.setBody(comment.getBody());
+//        commentDto.setEmail(comment.getEmail());
+//        commentDto.setName(comment.getName());
+//        commentDto.setId(comment.getId());
         return commentDto;
     }
     //Convert comment Dto to Entity
     private Comment mapToEntity(CommentDto commentDto){
-        Comment comment  = new Comment();
-        comment.setBody(commentDto.getBody());
-        comment.setEmail(commentDto.getEmail());
-        comment.setId(commentDto.getId());
-        comment.setName(commentDto.getName());
+        Comment comment = mapper.map(commentDto, Comment.class);
+//        Comment comment  = new Comment();
+//        comment.setBody(commentDto.getBody());
+//        comment.setEmail(commentDto.getEmail());
+//        comment.setId(commentDto.getId());
+//        comment.setName(commentDto.getName());
         return comment;
     }
 }

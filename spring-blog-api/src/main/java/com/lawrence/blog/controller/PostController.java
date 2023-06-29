@@ -1,6 +1,5 @@
 package com.lawrence.blog.controller;
 
-import com.lawrence.blog.entity.Post;
 import com.lawrence.blog.payload.PostDto;
 import com.lawrence.blog.payload.PostResponse;
 import com.lawrence.blog.services.PostService;
@@ -55,8 +54,8 @@ public class PostController {
     //http://localhost:8080/api/posts/category/1
     @GetMapping("/category/{id}")
     public ResponseEntity<List<PostDto>> getPostByCategory(@PathVariable Long id){
-        List<PostDto> postDtos = postService.getPostByCategory(id);
-        return new ResponseEntity<>(postDtos, HttpStatus.OK);
+        List<PostDto> postDto = postService.getPostByCategory(id);
+        return new ResponseEntity<>(postDto, HttpStatus.OK);
     }
     //Delete the post of the given id
     //http://localhost:8080/api/posts/
